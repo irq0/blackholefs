@@ -1,0 +1,16 @@
+* blackhole fs
+FUSE overlay filesystem that doesn't keep data, but metadata.
+
+** Build
+#+BEGIN_SRC sh
+make
+#+END_SRC
+
+** Run
+Run bhfs with the subdir module. This causes the paths passed to the
+FUSE opts to change to a subdir of your choosing. Otherwise =/= will
+be mounted.
+
+#+BEGIN_SRC sh
+./bhfs -d -o modules=subdir -o subdir=$(readlink -f ./backing-dir) /mountpoint
+#+END_SRC
