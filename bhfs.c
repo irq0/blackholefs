@@ -22,15 +22,6 @@
 	errno = 0;                                                             \
 	return (func != 0) ? -errno : 0;
 
-#define BH_FUSE_OPT_KEY(t, p, v)                                               \
-	{                                                                      \
-		t, offsetof(struct options, p), v                              \
-	}
-
-enum { KEY_VERSION,
-       KEY_HELP,
-};
-
 static int bh_getattr(const char *path, struct stat *out_st)
 {
 	return_ok_or_errno(stat(path, out_st));
@@ -227,7 +218,7 @@ static int bh_read(const char *path, char *buf, size_t buf_size, off_t off,
 	fstat(fd, &st);
 
 	size_t rsize = ((off + buf_size) > (size_t)st.st_size)
-			   ? (st.st_size - off)
+			   ? ((size_t)st.st_size - off)
 			   : buf_size;
 
 	bzero(buf, buf_size);
